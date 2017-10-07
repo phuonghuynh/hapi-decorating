@@ -14,31 +14,6 @@ Advantages over the original https://github.com/Boulangerie/hapiour-decorators[h
 
 * Controller (`@Module`) Interceptor support
 
-```
-
-@Service()
-export class SomeInterceptor extends Interceptor {
-
-  @Inject()
-  private service: SomeService;
-
-  async intercept(@request request, @param_number user_id?: number) {
-     ....
-  }
-
-}
-
-
-@Module({basePath: '/path', interceptors: [SomeInterceptor]})
-export class YourController {
-
-  @Inject()
-  private service: SomeService;
-
-  ...
-}
-```
-
 * Reply Exception if error happen
 
 * Support https://github.com/pleerock/typedi[TypeDI]
@@ -47,11 +22,31 @@ export class YourController {
 
 * Sample
 
-```
+```typescript
+@Service()
+export class SomeInterceptor extends Interceptor {
+
+  @Inject()
+  private service: SomeService;
+
+  async intercept(@request request, @param_number user_id?: number) {
+     ...
+  }
+}
+
+@Module({basePath: '/path', interceptors: [SomeInterceptor]})
+export class YourController {
+
+  @Inject()
+  private service: SomeService;
+
   @Route({method: 'POST', path: '/{user_id}/clients'})
   async getToken(@request_attr googleAuth, @request_attr payload: any, @param_number user_id): Promise<any> {
     return "something";
   }
+  
+  ...
+}
 ```
 
 * Npm package: https://www.npmjs.com/package/hapi-decorating
