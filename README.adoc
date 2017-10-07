@@ -1,0 +1,68 @@
+# hapi-decorating
+
+Typescript decorators for HapiJS
+
+Advantages over the original https://github.com/Boulangerie/hapiour-decorators[hapiour-decorators]:
+
+* New decorators added:
+  - `@param_number`
+  - `@request_attr`
+  - `@require_request_attr`
+  - `@request`
+  - `@reply`
+  - `@param`
+
+* Controller (`@Module`) Interceptor support
+
+```
+
+@Service()
+export class SomeInterceptor extends Interceptor {
+
+  @Inject()
+  private service: SomeService;
+
+  async intercept(@request request, @param_number user_id?: number) {
+     ....
+  }
+
+}
+
+
+@Module({basePath: '/path', interceptors: [SomeInterceptor]})
+export class YourController {
+
+  @Inject()
+  private service: SomeService;
+
+  ...
+}
+```
+
+* Reply Exception if error happen
+
+* Support https://github.com/pleerock/typedi[TypeDI]
+
+* Inject arguments to Route Handler just like Java Spring
+
+* Sample
+
+```
+  @Route({method: 'POST', path: '/{user_id}/clients'})
+  async getToken(@request_attr googleAuth, @request_attr payload: any, @param_number user_id): Promise<any> {
+    return "something";
+  }
+```
+
+* Npm package: https://www.npmjs.com/package/hapi-decorating
+
+
+### Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Write your code **and tests**
+4. Ensure all tests still pass
+5. Commit your changes (`git commit -am 'Add some feature'`)
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create new pull request

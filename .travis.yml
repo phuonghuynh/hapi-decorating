@@ -1,0 +1,18 @@
+language: node_js
+
+node_js:
+  - '8.0.0'
+
+install:
+  - npm install
+
+script:
+  - npm run lint
+  - npm run test
+
+deploy:
+  provider: npm
+  email: alexandre.moatty@gmail.com
+  api_key: $NPM_TOKEN
+  on:
+    tags: true
