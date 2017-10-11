@@ -136,13 +136,14 @@ function getMappingArgs(request: Hapi.Request, reply: any, target: any) {
   return args;
 }
 
-function isPromise(obj) {
-  return !!obj.then && typeof obj.then === 'function';
-}
+// function isPromise(obj) {
+//   return !!obj.then && typeof obj.then === 'function';
+// }
 
 function overrideModuleHandler(injector, server: Hapi.Server, mod: IModule, route: Hapi.RouteConfiguration, interceptors): void {
   // let config: any = route.config || {};
   let pre = _.get(route, 'config.pre', []);
+  interceptors = interceptors || [];
 
   for (let interceptor of interceptors) {
     if (_.isArray(interceptor)) {
@@ -167,17 +168,29 @@ function execute(fn, thisArg, request, reply) {
   try {
     let args = getMappingArgs(request, reply, fn);
 
-    if (isPromise(fn)) {
+    // if (isPromise(fn)) {
       fn.apply(thisArg, args)
-        .then((rsp) => reply(rsp))
+        .then((rsp) => {
+          try {
+            reply(rsp);
+          }
+          catch (e) {} //to prevent warning reply twice sometime
+        })
         .catch((e) => reply(e));
-    }
-    else {
-      let rsp = fn.apply(thisArg, args);
-      reply(rsp);
-    }
+    // }
+    // else {
+    //   let rsp = fn.apply(thisArg, args);
+    //   if (rsp) {
+    //     reply(rsp);
+    //   }
+    // }
+    // let rsp = fn.apply(thisArg, args);
+    // if (rsp) {
+    //   reply(rsp);
+    // }
   }
   catch (e) {
+    console.error(e);
     reply(e);
   }
 }
@@ -199,9 +212,7 @@ function getRoutesWithConfigRecurs(injector: Injector,
       modRoutes = _.each(modRoutes, (route: Hapi.RouteConfiguration) => {
         route.path = _.get(parentConfig, 'basePath', '') + config.basePath + route.path;
 
-        if (_.isArray(config.interceptors)) {
-          overrideModuleHandler(injector, server, mod, route, config.interceptors);
-        }
+        overrideModuleHandler(injector, server, mod, route, config.interceptors);
       });
 
       routes = _.concat(routes, modRoutes, getRoutesWithConfigRecurs(injector, Mod, server, item));
