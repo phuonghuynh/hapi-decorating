@@ -172,7 +172,9 @@ function execute(fn, thisArg, request, reply) {
       fn.apply(thisArg, args)
         .then((rsp) => {
           try {
-            reply(rsp);
+            if (rsp) {
+              reply(rsp);
+            }
           }
           catch (e) {} //to prevent warning reply twice sometime
         })
