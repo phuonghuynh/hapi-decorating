@@ -1,16 +1,16 @@
 {
   "name": "hapi-decorating",
-  "version": "1.0.1-rc1",
+  "version": "1.0.1-rc4",
   "description": "Typescript decorators for Hapi",
   "repository": {
     "type": "git",
-    "url": "https://github.com/phuonghuynh/hapi-decorating"
+    "url": "git+https://github.com/phuonghuynh/hapi-decorating"
   },
   "scripts": {
     "prepare": "rm -Rf ./lib && tsc",
     "prepublishOnly": "npm run prepare"
   },
-  "main": "./lib/index.ts",
+  "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "engines": {
     "node": ">=8.0.0",

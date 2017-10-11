@@ -37,9 +37,11 @@ export {
   PluginDecorator as Plugin,
   PluginConfiguratorDecorator as PluginConfigurator,
   ModuleDecorator as Controller,
+  ModuleDecorator as Module, //@deprecated
   RouteDecorator as Route,
 
-  IApp,
+  IApp, // @deprecated
+  IApp as IServer,
   IModule as IController,
   IPlugin,
   IPluginConfigurator,

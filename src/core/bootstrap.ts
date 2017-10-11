@@ -156,6 +156,7 @@ function overrideModuleHandler(injector, server: Hapi.Server, mod: IModule, rout
     });
   }
 
+  route.config = _.get(route, 'config', {});
   (route.config as Hapi.RouteAdditionalConfigurationOptions).pre = pre;
 
   let originalHandler: Function = <Function>route.handler;
