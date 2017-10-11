@@ -136,10 +136,6 @@ function getMappingArgs(request: Hapi.Request, reply: any, target: any) {
   return args;
 }
 
-// function isPromise(obj) {
-//   return !!obj.then && typeof obj.then === 'function';
-// }
-
 function overrideModuleHandler(injector, server: Hapi.Server, mod: IModule, route: Hapi.RouteConfiguration, interceptors): void {
   // let config: any = route.config || {};
   let pre = _.get(route, 'config.pre', []);
@@ -168,28 +164,15 @@ function execute(fn, thisArg, request, reply) {
   try {
     let args = getMappingArgs(request, reply, fn);
 
-    // if (isPromise(fn)) {
-      fn.apply(thisArg, args)
-        .then((rsp) => {
-          try {
-            if (rsp) {
-              reply(rsp);
-            }
-          }
-          catch (e) {} //to prevent warning reply twice sometime
-        })
-        .catch((e) => reply(e));
-    // }
-    // else {
-    //   let rsp = fn.apply(thisArg, args);
-    //   if (rsp) {
-    //     reply(rsp);
-    //   }
-    // }
-    // let rsp = fn.apply(thisArg, args);
-    // if (rsp) {
-    //   reply(rsp);
-    // }
+    fn.apply(thisArg, args)
+      .then((rsp) => {
+        try {
+          reply(rsp);
+        }
+        catch (e) {
+        } //to prevent warning reply twice sometime
+      })
+      .catch((e) => reply(e));
   }
   catch (e) {
     console.error(e);

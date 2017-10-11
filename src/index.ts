@@ -25,7 +25,7 @@ import {
 
 import {bootstrap, bootstrapWithOptions} from './core/bootstrap';
 
-import {Interceptor} from './core/context'
+import {Interceptor, AbstractServer} from './core/context'
 import {Injector} from "./core/injector.class";
 
 export {
@@ -50,6 +50,7 @@ export {
   Injector,
 
   Interceptor,
+  AbstractServer,
 
   ParamNumberDecorator as param_number,
   RequestAttributeDecorator as request_attr,
