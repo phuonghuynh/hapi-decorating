@@ -41,7 +41,7 @@ export class YourController {
   private service: SomeService;
 
   @Route({method: 'POST', path: '/{user_id}/clients'})
-  async getToken(@request_attr googleAuth, @request_attr payload: any, @param_number user_id): Promise<any> {
+  async getToken(@request_attr googleAuth, @request_attr payload: any, @param_number user_id: number): Promise<string> {
     return "something";
   }
   
